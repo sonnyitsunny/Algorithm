@@ -5,7 +5,7 @@ func solution(_ name:[String], _ yearning:[Int], _ photo:[[String]]) -> [Int] {
     
     var result:[Int]=[]
     var nameScore:[String:Int]=[:]
-    //딕셔너리로 이름별 추억점수 자료구조 만듬
+    //딕셔너리로 이름별 추억점수 자료구조 만들어 줌
     for i in 0..<name.count{
         nameScore[name[i]]=yearning[i]
     }
