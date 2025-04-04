@@ -1,56 +1,71 @@
-import sys
-from collections import deque
-N = int(sys.stdin.readline())
-pan = [list(map(int, sys.stdin.readline().split())) for _ in range(N)]
-dx = [1,0,-1,0]
-dy = [0,1,0,-1]
-def bfs(a, b):
-    q = deque()
-    q.append((a,b))
-    distance = [[0]*N for _ in range(N)]
-    eat_list = []
-    global size
-    while q:
-        x,y = q.popleft()
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i] 
-            if nx<0 or ny<0 or nx>=N or ny>=N:
-                continue
-            if pan[nx][ny] <= size and visited[nx][ny]==0:
-                q.append((nx,ny))
-                visited[nx][ny] = 1
-                distance[nx][ny] = distance[x][y] + 1
-                if pan[nx][ny] < size and pan[nx][ny]!=0:
-                    eat_list.append((nx,ny,distance[nx][ny]))
-    return eat_list
 
-count = 0
-for i, line in enumerate(pan):
-    for j, value in enumerate(line):
-        if value == 9:
-            x=i
-            y=j
-pan[x][y] = 0
-size = 2
-eat = 0
-while 1:
-    visited = [[0]*N for _ in range(N)]
-    eat_list = bfs(x,y)
+from collections import deque
+n=int(input())
+nofish=0
+maps=[] 
+#상어위치
+shark_x=0
+shark_y=0
+#상어크기
+shark=2
+
+for i in range(n):
+    row=list(map(int,input().split()))
+    #상어 처음위치
+    if 9 in row:
+       shark_x=i
+       shark_y=row.index(9)
+       row[shark_y]=0
+    maps.append(row)
     
-    if len(eat_list)<1: # 먹을 수 있는 리스트가 없으면 무한루프 탈출
+
+#상하좌우
+dx=[-1,1,0,0]
+dy=[0,0,-1,1]
+
+def bfs(si,sj):
+    q=deque()
+    v=[[0]*n for _ in range(n)]
+    tlst=[]
+
+    q.append((si,sj))
+    v[si][sj]=1
+    eat=0
+    while q:
+        ci,cj = q.popleft()
+        if eat==v[ci][cj]:
+            return tlst,eat-1
+        
+
+
+        for i in range(4):
+            ni,nj=ci+dx[i],cj+dy[i]
+            if 0<=ni<n and 0<=nj<n and v[ni][nj]==0 and  shark>=maps[ni][nj]:
+                q.append((ni,nj))
+                v[ni][nj]=v[ci][cj]+1
+                #나보다 작은 물고기인 경우 tls 추가
+                if shark>maps[ni][nj]>0:
+                    tlst.append((ni,nj))
+                    eat=v[ni][nj]
+    #먹을 물고기 못찾음
+    return tlst,eat-1
+
+
+#먹은 수, 거리
+cnt=ans=0
+while True:
+    tlst,dist=bfs(shark_x,shark_y)
+    #더 먹을 물고기가 없는 경우
+    if len(tlst)==0:
         break
-    eat_list.sort(key=lambda x:(-x[2],-x[0],-x[1])) # 오름차순 정렬 우선순위: 거리, x, y 순
-    if len(eat_list)<1: # 먹을 수 있는 리스트가 없으면 무한루프 탈출
-        break
-    nx,ny,distance = eat_list.pop()
-    # 먹은 좌표로 이동시킴
-    x = nx
-    y = ny
-    pan[x][y] = 0
-    count += distance # 소요시간 count에 더함
-    eat += 1
-    if size==eat:
-        size += 1
-        eat = 0
-print(count)
+    tlst.sort(key=lambda x:(x[0],x[1]))
+    shark_x,shark_y=tlst[0]
+    maps[shark_x][shark_y]=0 # 물고기 먹기
+    cnt+=1
+    ans+=dist
+    # 크기만큼 물고기 먹으면 +1
+    if shark==cnt:
+        shark+=1
+        cnt=0
+
+print(ans)
