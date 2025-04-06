@@ -9,10 +9,8 @@ cnt=0
 i=0
 end=len(word)
 
-
-    
 while True:
-    if i+end<=len(book):
+    if i+end<=len(book): # 슬라이싱은 i_end까지 포함하지 않으므로 len(book) - 1이 아니라 len(book)로
         if book[i:i+end]!=word:
             i=i+1
         else:
