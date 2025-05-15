@@ -33,7 +33,7 @@ while true{
                     graph[z][y][x] = input[x]
                 }
             }
-        _ = readLine()
+            readLine()
         }
 
 
@@ -57,7 +57,7 @@ while true{
         Index+=1
 
         if graph[z][x][y]=="E"{
-            print("Escaped in \(visited[z][x][y]) minute(s).")
+            print("Escaped in",(visited[z][x][y]),"minute(s).")
             escape=true
             break
         }
