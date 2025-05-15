@@ -26,29 +26,23 @@ while true {
             layer.append(row)
         }
         graph.append(layer)
-        
+
         readLine()
-        
+
     }
 
-    var startFound = false
-    outer: for k in 0..<L {
-        for i in 0..<R {
-            for j in 0..<C {
-                if graph[k][i][j] == "S" {
+    for k in 0..<L{
+        for i in 0..<R{
+            for j in 0..<C{
+                if graph[k][i][j] == "S"{
                     q.append((k,i,j))
-                    visited[k][i][j] = 0
-                    startFound = true
-                    break outer
+                    visited[k][i][j]=0
+
                 }
             }
         }
     }
 
-    if !startFound {
-        print("Trapped!")
-        continue
-    }
 
     var escape = false
     var Index = 0
