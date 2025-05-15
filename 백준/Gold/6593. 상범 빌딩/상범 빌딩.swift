@@ -19,7 +19,7 @@ while true {
         count: L
     )
 
-    for l in 0..<L {
+    for _ in 0..<L {
         var layer = [[Character]]()
         for _ in 0..<R {
             let row = Array(readLine()!)
