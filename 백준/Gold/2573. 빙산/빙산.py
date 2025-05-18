@@ -49,7 +49,10 @@ while True:
             if graph[i][j]!=0:
                 melt(i,j)
     year+=1
-    graph=copy.deepcopy(ice)
+    graph=[]
+    for row in ice:
+        graph.append(row)
+
     ice=[[0]*m for _ in range(n)]
 
     visited=[[False]*m for _ in range(n)]
