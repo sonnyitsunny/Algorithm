@@ -12,7 +12,7 @@ ans=float('inf')
 arr.sort()
 
 left=0
-right=0
+right=1
 
 while left < N and right<N:
     diff=arr[right]-arr[left]
@@ -21,5 +21,5 @@ while left < N and right<N:
     else:
         ans=min(ans,diff)
         left+=1
-        
+
 print(ans)
