@@ -15,6 +15,6 @@ for i in range(2,N+1):
             dp[i][j]==dp[i-1][j]
 
         else:
-            dp[i][j]=(dp[i][j-1]+dp[i-1][j])
+            dp[i][j]=(dp[i][j-1]+dp[i-1][j])%10007
 
 print(sum(dp[N]) % 10007)
