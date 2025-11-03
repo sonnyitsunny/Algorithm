@@ -1,6 +1,6 @@
 -- 코드를 작성해주세요
 with recursive tmp as (
-    select id, parent_id, 1 as generation
+    select id, parent_id, 1 as GENERATION
     from ecoli_data
     where parent_id is null
     union all
@@ -9,11 +9,12 @@ with recursive tmp as (
     on tmp.id = s.parent_id
 )
 
-select count(*) count, generation
+select COUNT(*) AS COUNT,GENERATION
 from tmp
-where id not in (
-    select distinct parent_id
-    from tmp
-    where parent_id is not null)
-group by generation
-order by generation;
+WHERE id not in (SELECT parent_id 
+                 FROM tmp
+                 WHERE parent_id is not null
+                 
+                )
+GROUP BY GENERATION
+ORDER BY GENERATION
