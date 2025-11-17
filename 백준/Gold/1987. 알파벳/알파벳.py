@@ -1,32 +1,32 @@
 import sys
+
 input = sys.stdin.readline
 
+R, C = map(int, input().split())
+board = [list(input().strip()) for _ in range(R)]
 
-R,C=map(int,input().split())
-board=[]
-for _ in range(R):
-    board.append(list(input().strip()))
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
 
+visited = [False] * 26
+answer = 0
 
-
-dx=[-1,1,0,0]
-dy=[0,0,-1,1]
-max_cnt=0
-arr={board[0][0]}
-def dfs(x,y,cnt):
-    global max_cnt
-    max_cnt=max(max_cnt,cnt)
-       
-
-
+def dfs(x, y, cnt):
+    global answer
+    answer = max(answer, cnt)
 
     for k in range(4):
-        nx,ny=x+dx[k],y+dy[k]
-        if 0<=nx<R and 0<=ny<C:
-            if board[nx][ny] not in arr:
-                arr.add(board[nx][ny])
-                dfs(nx,ny,cnt+1)
-                arr.remove(board[nx][ny])
+        nx = x + dx[k]
+        ny = y + dy[k]
 
-dfs(0,0,1)  #(지금까지 방문했던 곳들, 지날 수 있는 칸)
-print(max_cnt)
+        if 0 <= nx < R and 0 <= ny < C:
+            idx = ord(board[nx][ny]) - 65
+            if not visited[idx]:
+                visited[idx] = True
+                dfs(nx, ny, cnt + 1)
+                visited[idx] = False
+
+visited[ord(board[0][0]) - 65] = True
+dfs(0, 0, 1)
+
+print(answer)
