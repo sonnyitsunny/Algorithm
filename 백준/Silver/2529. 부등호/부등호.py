@@ -5,19 +5,15 @@ input = sys.stdin.readline
 
 k=int(input())
 arr=list(input().split())
-
 visited=[False]*10
 
-max_res=0
-min_res=1e12
-max_str=""
-min_str=""
-
+max_str=None
+min_str=None
+res=[]
 
 
 def dfs(nums,depth):
-    global max_res
-    global min_res
+
     global max_str
     global min_str
     check=True
@@ -33,14 +29,7 @@ def dfs(nums,depth):
                     break
         if check:
             str_nums=''.join(map(str,nums))
-            int_nums=int(str_nums)
-            #최대
-            if int_nums>max_res:
-                max_res=int_nums
-                max_str=str_nums
-            if int_nums<min_res:
-                min_res=int_nums
-                min_str=str_nums
+            res.append(str_nums)
 
         return
 
@@ -57,5 +46,7 @@ def dfs(nums,depth):
 
 
 dfs([],0)
-print(max_str)
-print(min_str)
+
+res.sort()
+print(res[-1])
+print(res[0])
