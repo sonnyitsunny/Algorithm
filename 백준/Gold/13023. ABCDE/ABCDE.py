@@ -4,39 +4,31 @@ input = sys.stdin.readline
 N,M=map(int,input().split())
 graph=[[] for _ in range(N)]
 
-
 for _ in range(M):
     a,b=map(int,input().split())
     graph[a].append(b)
     graph[b].append(a)
 
-result=[]
 visited=[False]*N
-
 safe=False
 
-def dfs(cur):
+def dfs(cur,depth):
     #print(*result)
     global safe
-    if len(result)==5:
+    visited[cur]=True
+    
+    if depth==5:
         safe=True
         return 
 
     for nxt in graph[cur]:
         if not visited[nxt]:
-            result.append(nxt)
-            visited[nxt]=True
-            dfs(nxt)
-            result.pop()
-            visited[nxt]=False
-
+            dfs(nxt,depth+1)
+    visited[cur]=False
 
 for i in range(N):
     result=[i]
-    visited[i]=True
-    dfs(i)
-    visited[i]=False
-
+    dfs(i,1)
     if safe:
         break
         
