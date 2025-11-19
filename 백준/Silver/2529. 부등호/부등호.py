@@ -14,34 +14,27 @@ res=[]
 
 def dfs(nums,depth):
 
-    global max_str
-    global min_str
-    check=True
     if depth==k+1:
-        for j in range(k):
-            if arr[j]=='>':
-                if nums[j]<nums[j+1]:
-                    check=False
-                    break
-            elif arr[j]=='<':
-                if nums[j]>nums[j+1]:
-                    check=False
-                    break
-        if check:
-            str_nums=''.join(map(str,nums))
-            res.append(str_nums)
-
+        res.append(''.join(map(str,nums)))
         return
 
     for i in range(10):
         if not visited[i]:
+            
+            if depth>0:
+                op=arr[depth-1]
+                if op=='<':
+                    if int(nums[depth-1]) > i:
+                        continue
+
+
+                elif op=='>':
+                    if int(nums[depth-1]) < i:
+                        continue
+
             visited[i]=True
             dfs(nums+[i],depth+1)
             visited[i]=False
-
-
-
-
 
 
 
