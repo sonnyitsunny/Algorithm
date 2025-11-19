@@ -1,44 +1,34 @@
 import sys
 input = sys.stdin.readline
 
-n=int(input())
-arr=[]
+n = int(input())
+arr = [list(map(int, input().split())) for _ in range(n)]
 
-for _ in range(n):
-    arr.append(list(map(int,input().split())))
+min_cnt = float('inf')
+visited = [False] * n
 
-min_cnt=1e9
-visited=[False]*n
-seq=[]
 
-def dfs():
+visited[0] = True
+path = [0]
+
+def dfs(curr, depth, cost):
     global min_cnt
-    if len(seq)==n:
-        cnt=0
-        safe=True
-        for i in range(n-1):
-            if arr[seq[i]][seq[i+1]]==0:
-                safe=False
 
-                break
-            cnt+=arr[seq[i]][seq[i+1]]
 
-        if safe:
-            if arr[seq[-1]][seq[0]]!=0:
-                cnt+=arr[seq[-1]][seq[0]]
-        
-                min_cnt=min(min_cnt,cnt)
-            #print(*seq,cnt)
+    if cost >= min_cnt:
         return
-    
 
-    for i in range(n):
-        if not visited[i]:
-            seq.append(i)
-            visited[i]=True
-            dfs()
-            seq.pop()
-            visited[i]=False
+    if depth == n:
+  
+        if arr[curr][0] != 0:
+            min_cnt = min(min_cnt, cost + arr[curr][0])
+        return
 
-dfs()
+    for next in range(1, n):  
+        if not visited[next] and arr[curr][next] != 0:
+            visited[next] = True
+            dfs(next, depth + 1, cost + arr[curr][next])
+            visited[next] = False
+
+dfs(0, 1, 0)
 print(min_cnt)
