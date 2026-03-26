@@ -1,17 +1,16 @@
-
 SELECT N.ID,
+CASE
+    WHEN N.R/COUNT(*) OVER() <= 0.25
+    THEN "CRITICAL"
     
-    CASE
-        WHEN N.R/COUNT(*) OVER () <= 0.25
-        THEN 'CRITICAL'
-        WHEN N.R/COUNT(*) OVER () <= 0.50
-        THEN 'HIGH'
-        WHEN N.R/COUNT(*) OVER () <= 0.75
-        THEN 'MEDIUM'
-        ELSE 'LOW'
-        END AS COLONY_NAME
-
+    WHEN N.R/COUNT(*) OVER() <= 0.5
+    THEN "HIGH"
+    
+    WHEN N.R/COUNT(*) OVER() <= 0.75
+    THEN "MEDIUM"
+    
+    ELSE 'LOW'
+    END AS COLONY_NAME
 FROM (SELECT ID, RANK() OVER(ORDER BY SIZE_OF_COLONY DESC) AS R
      FROM ECOLI_DATA) AS N
-
 ORDER BY N.ID;
