@@ -1,23 +1,11 @@
-from collections import defaultdict
 def solution(nums):
     answer = 0
-    poc=defaultdict(int)
     n=len(nums)/2
+    set_nums=set(nums)
     
-    
-    for i in nums:
-        if i in poc:
-            pass
-        else:
-            poc[i]=1
-    
-    m=len(poc.keys())
-    if m>=n:
-        answer=n
+    if n<len(set_nums):
+        return n
     else:
-        answer=m
-    
-    
-    
+        return len(set_nums)
     
     return answer
