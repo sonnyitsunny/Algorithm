@@ -1,29 +1,17 @@
 def solution(n, lost, reserve):
+    answer = 0
     
-
+    both=set(lost)&set(reserve)
+    lost=sorted(set(lost)-set(both))
+    reserve=sorted(set(reserve)-set(both))
     
-    a_lost=list(set(lost)-set(reserve))
-    a_reserve=list(set(reserve)-set(lost))
+    for r in reserve:
+        if (r-1) in lost:
+            lost.remove(r-1)
+        elif (r+1) in lost:
+            lost.remove(r+1)
     
-    a_lost.sort()
-    a_reserve.sort()
-    answer = n-len(a_lost)
-    for i in a_lost:
-        if i in a_reserve:
-            answer+=1
-            a_reserve.remove(i)
-        else:
-            a=i-1
-            b=i+1
-
-            safe=False
-
-            if a in a_reserve:
-                answer+=1
-                a_reserve.remove(a)
-                safe=True
-            if (safe==False) and (b in a_reserve):
-                answer+=1
-                a_reserve.remove(b)
-        
-    return answer
+    answer=n-len(lost)
+    
+    
+    return answer 
