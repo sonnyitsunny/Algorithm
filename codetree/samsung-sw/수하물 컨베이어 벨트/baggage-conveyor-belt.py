@@ -19,7 +19,7 @@ for i in range(1, B + 1):
     waiting[arr[0]].append([i] + arr[1:])
 
 turn = 1
-used = [False] * B
+
 broken = [False] * B
 
 q = deque()
@@ -166,9 +166,9 @@ while len(answer) != B:
         r -= 1
         c -= 1
 
-        if not used[num - 1] and not visited[r][c]:
+        if not visited[r][c]:
 
-            used[num - 1] = True
+            
             visited[r][c] = True
 
             # 번호, 이동 시작 턴, 무게,
