@@ -11,7 +11,7 @@ def solution(signals):
         for sign in signals:
             g,y,r=sign
             cycle=g+y+r
-            pos=time%cycle
+            pos=(time-1)%cycle+1
             
             if g+1<=pos<=g+y:
                 continue
