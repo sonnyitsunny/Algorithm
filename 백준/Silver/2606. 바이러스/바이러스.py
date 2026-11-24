@@ -1,24 +1,26 @@
-V=int(input())
-E=int(input())
-
-graph=[[]for _ in range(V+1)]
-visited=[False]*(V+1)
-
-for _ in range(E):
-    a,b=map(int,input().split())
-    graph[a].append(b)
-    graph[b].append(a)
+from collections import deque
 
 
-def dfs(com):
-    visited[com]=True
+N=int(input())
+M=int(input())
 
-    for nxt_com in graph[com]:
-        if not visited[nxt_com]:
-            dfs(nxt_com)
-    
-    
-    return sum(visited)
+com=[0]*(N+1)
+
+graph=[[]for _ in range(N+1)]
+
+for _ in range(M):
+    s,e=map(int,input().split())
+    graph[s].append(e)
+    graph[e].append(s)
 
 
-print(dfs(1)-1)
+def dfs(now):
+    com[now]=1
+    for nxt in graph[now]:
+        if com[nxt]==0:
+            com[nxt]=1
+            dfs(nxt)
+
+
+dfs(1)
+print(sum(com)-1)
