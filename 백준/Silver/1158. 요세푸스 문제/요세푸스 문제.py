@@ -1,23 +1,23 @@
-import sys
-input=sys.stdin.readline
+N,K=map(int,input().split())
 
-n, kill = map(int,(input().split()))
+bef = []
+res=[]
 
-person=[]
-result=[]
-for i in range(0,n):
+
+
+for i in range(N):
+    bef.append(i+1)
+
+t_idx=K-1
+
+while len(res)!=N:
+    t_idx=t_idx%len(bef)
     
-    person.append(i+1)
+    res.append(bef.pop(t_idx))
+        
+    t_idx=t_idx+K-1
 
-while person:
-        kill_idx= (kill-1)%len(person)
-        result.append(person[kill_idx])
-        person.remove(person[kill_idx])
-        person=person[kill_idx:]+person[0:kill_idx]
 
-print('<',end='')
-for i in range(0,len(result)-1):
-      
-    print(result[i],end=', ')
-print(result[-1],end='')
-print('>',end='')
+
+
+print("<"+", ".join(map(str,res))+">")
