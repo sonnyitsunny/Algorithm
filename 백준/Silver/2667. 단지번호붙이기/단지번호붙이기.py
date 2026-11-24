@@ -1,51 +1,47 @@
-from collections import deque
+N=int(input())
 
-n=int(input())
-city=[]
-for _ in range(n):
-    city.append(list(map(int,input())))
+board=[]
+for _ in range(N):
+    board.append(list(map(int,input())))
+
+
+
+number=2
 
 dx=[-1,1,0,0]
 dy=[0,0,-1,1]
 
-visited=[[False]*n for _ in range(n)]
-#print(visited)
 
-result=[]
-#1이 이미 있으니까 2부터 단지를 준다.
-start=2
+def dfs(x,y):
+   
+    board[x][y]=number
 
-def bfs(x,y,start):
-    q=deque()
-    q.append((x,y))
-    visited[x][y]=True
-    city[x][y]=start
-    while q:
-        x,y=q.popleft()
+    for k in range(4):
+        nx=x+dx[k]
+        ny=y+dy[k]
+        if 0<=nx<N and 0<=ny<N:
+            if board[nx][ny]==1:
+                dfs(nx,ny)
 
-        for k in range(4):
-            nx,ny=x+dx[k],y+dy[k]
 
-            if 0<=nx<n and 0<=ny<n and not visited[nx][ny]:
-                if city[nx][ny]==1:
-                    city[nx][ny]=start
-                    visited[nx][ny]=True
-                    q.append((nx,ny))            
 
-for i in range(n):
-    for j in range(n):
-        if not visited[i][j] and city[i][j]==1:
-            bfs(i,j,start)
-            start+=1
-result=[]
-for t in range(2,start+1):
-    cnt=0
-    for i in range(n):
-        for j in range(n):
-            if city[i][j]==t:
-                cnt+=1
-    result.append(cnt)
-result.sort(key=lambda x:x)
-print(len(result)-1)
-for r in result[1:]:
-    print(r)
+for i in range(N):
+    for j in range(N):
+        if board[i][j]==1:
+            dfs(i,j)
+            number+=1
+
+# for r in board:
+#     print(r)
+print(number-2)
+res=[0]*(number)
+
+for i in range(N):
+    for j in range(N):
+        if board[i][j]!=0:
+            res[board[i][j]]+=1
+
+res.sort()
+for i in range(2,number):
+    print(res[i])
+
